@@ -42,6 +42,7 @@ class OtpVerificationController extends Controller
         $class = config('otp.notification');
 
         $user->notify(new $class($otp));
+
         return back()->with('status', 'The OTP has been resend.');
     }
 }

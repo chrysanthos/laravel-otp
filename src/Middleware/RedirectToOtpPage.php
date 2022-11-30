@@ -12,19 +12,19 @@ use Symfony\Component\HttpFoundation\Response;
 class RedirectToOtpPage
 {
     /**
-     * @param Request $request
-     * @param Closure $next
+     * @param  Request  $request
+     * @param  Closure  $next
      * @return RedirectResponse|mixed|Response
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!config('otp.enabled')) {
+        if (! config('otp.enabled')) {
             return $next($request);
         }
 
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return $next($request);
         }
 
