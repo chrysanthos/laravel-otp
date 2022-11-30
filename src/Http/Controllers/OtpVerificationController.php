@@ -44,7 +44,7 @@ class OtpVerificationController extends Controller
         $otp = Session::get($service->generateKey($user));
 
         if (empty($otp)) {
-            Cache::forever($service->generateKey($user), true);
+            $service->generateOtpAndSend($user);
         }
 
         $class = config('otp.notification');
