@@ -7,7 +7,6 @@ use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Session;
 
 class OtpListener
 {
@@ -20,19 +19,7 @@ class OtpListener
             return;
         }
 
-        $service = app(OtpService::class);
-
-        if (Session::get($key = $service->generateKey($user))) {
-            return;
-        }
-
-        $otp = $service->generateRandomOtp();
-
-        $service->storeOtpCode($key, $otp);
-
-        $class = config('otp.notification');
-
-        $user->notify(new $class($otp));
+        app(OtpService::class)->generateOtpAndSend($user);
     }
 
     public function clear(Logout $event)
