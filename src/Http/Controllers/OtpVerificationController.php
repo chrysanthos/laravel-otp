@@ -24,8 +24,8 @@ class OtpVerificationController extends Controller
 
         $key = $service->generateKey($user);
 
-        if (request()->integer('otp-code') === (int) Session::get($key)) {
-            Cache::put($service->generateVerifiedKey($user), true);
+        if (request()->integer('otp-code') === (int)Session::get($key)) {
+            Cache::forever($service->generateVerifiedKey($user), true);
             Session::forget($key);
 
             return redirect()->intended('/dashboard');
@@ -44,7 +44,7 @@ class OtpVerificationController extends Controller
         $otp = Session::get($service->generateKey($user));
 
         if (empty($otp)) {
-            Cache::put($service->generateVerifiedKey($user), true);
+            Cache::forever($service->generateKey($user), true);
         }
 
         $class = config('otp.notification');
