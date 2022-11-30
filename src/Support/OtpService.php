@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Session;
 class OtpService
 {
     /**
-     * @param User $user
-     *
+     * @param  User  $user
      * @return void
      */
     public function generateOtpAndSend(User $user)
