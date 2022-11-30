@@ -2,16 +2,16 @@
 
 namespace Chrysanthos\LaravelOtp\Listeners;
 
-use Chrysanthos\LaravelOtp\LaravelOtp;
-use Illuminate\Auth\Events\Authenticated;
+use Chrysanthos\LaravelOtp\Support\OtpService;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 
-class OtpService
+class OtpListener
 {
-    public function generate(Authenticated $event)
+    public function generate(Login $event)
     {
         /** @var User $user */
         $user = $event->user;
@@ -20,13 +20,15 @@ class OtpService
             return;
         }
 
-        $key = LaravelOtp::generateKey($user);
+        $service = app(OtpService::class);
 
-        if (Session::get($key)) {
+        if (Session::get($key = $service->generateKey($user))) {
             return;
         }
 
-        Session::put($key, $otp = random_int(100001, 999999));
+        $otp = $service->generateRandomOtp();
+
+        $service->storeOtpCode($key, $otp);
 
         $class = config('otp.notification');
 
@@ -35,6 +37,9 @@ class OtpService
 
     public function clear(Logout $event)
     {
-        Cache::forget(LaravelOtp::generateVerifiedKey($event->user));
+        Cache::forget(
+            app(OtpService::class)->generateVerifiedKey($event->user)
+        );
     }
+
 }

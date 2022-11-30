@@ -2,7 +2,7 @@
 
 namespace Chrysanthos\LaravelOtp\Http\Controllers;
 
-use Chrysanthos\LaravelOtp\LaravelOtp;
+use Chrysanthos\LaravelOtp\Support\OtpService;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
@@ -20,10 +20,12 @@ class OtpVerificationController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
-        $key = LaravelOtp::generateKey($user);
+        $service = app(OtpService::class);
 
-        if (request()->integer('otp-code') === (int) Session::get($key)) {
-            Cache::put(LaravelOtp::generateVerifiedKey($user), true);
+        $key = $service->generateKey($user);
+
+        if (request()->integer('otp-code') === (int)Session::get($key)) {
+            Cache::put($service->generateVerifiedKey($user), true);
             Session::forget($key);
 
             return redirect()->intended('/dashboard');
@@ -37,7 +39,13 @@ class OtpVerificationController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
-        $otp = Session::get(LaravelOtp::generateKey($user));
+        $service = app(OtpService::class);
+
+        $otp = Session::get($service->generateKey($user));
+
+        if (empty($otp)) {
+            Cache::put($service->generateVerifiedKey($user), true);
+        }
 
         $class = config('otp.notification');
 

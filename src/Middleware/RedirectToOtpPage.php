@@ -3,6 +3,7 @@
 namespace Chrysanthos\LaravelOtp\Middleware;
 
 use Chrysanthos\LaravelOtp\LaravelOtp;
+use Chrysanthos\LaravelOtp\Support\OtpService;
 use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -32,7 +33,7 @@ class RedirectToOtpPage
             return $next($request);
         }
 
-        if (Cache::missing(LaravelOtp::generateVerifiedKey($user))) {
+        if (Cache::missing(app(OtpService::class)->generateVerifiedKey($user))) {
             if ($request->header('X-Inertia')) {
                 return inertia()->location(route('2fa.index'));
             }
