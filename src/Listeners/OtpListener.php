@@ -41,5 +41,4 @@ class OtpListener
             app(OtpService::class)->generateVerifiedKey($event->user)
         );
     }
-
 }

@@ -19,11 +19,11 @@ class OtpService
 
     public function generateKey(Authenticatable $user): string
     {
-        return get_class($user) . '_' . $user->id;
+        return get_class($user).'_'.$user->id;
     }
 
     public function generateVerifiedKey(Authenticatable $user): string
     {
-        return get_class($user) . '-' . $user->id . '2fa-verified';
+        return get_class($user).'-'.$user->id.'2fa-verified';
     }
 }

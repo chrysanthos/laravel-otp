@@ -2,7 +2,6 @@
 
 namespace Chrysanthos\LaravelOtp\Middleware;
 
-use Chrysanthos\LaravelOtp\LaravelOtp;
 use Chrysanthos\LaravelOtp\Support\OtpService;
 use Closure;
 use Illuminate\Http\RedirectResponse;
