@@ -12,13 +12,27 @@ use Symfony\Component\HttpFoundation\Response;
 class RedirectToOtpPage
 {
     /**
-     * @param  Request  $request
-     * @param  Closure  $next
+     * @param Request $request
+     * @param Closure $next
      * @return RedirectResponse|mixed|Response
      */
     public function handle(Request $request, Closure $next)
     {
-        if (config('otp.enabled') && Cache::missing(LaravelOtp::generateVerifiedKey($request->user()))) {
+        if (!config('otp.enabled')) {
+            return $next($request);
+        }
+
+        $user = $request->user();
+
+        if (!$user) {
+            return $next($request);
+        }
+
+        if (method_exists($user, 'shouldPassOtp') && $user->shouldPassOtp() === false) {
+            return $next($request);
+        }
+
+        if (Cache::missing(LaravelOtp::generateVerifiedKey($user))) {
             if ($request->header('X-Inertia')) {
                 return inertia()->location(route('2fa.index'));
             }

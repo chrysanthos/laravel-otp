@@ -3,7 +3,6 @@
 namespace Chrysanthos\LaravelOtp\Http\Controllers;
 
 use Chrysanthos\LaravelOtp\LaravelOtp;
-use Chrysanthos\LaravelOtp\Listeners\OtpService;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
@@ -16,7 +15,7 @@ class OtpVerificationController extends Controller
         return view('otp::otp');
     }
 
-    public function store()
+    public function send()
     {
         /** @var User $user */
         $user = auth()->user();
@@ -35,8 +34,14 @@ class OtpVerificationController extends Controller
 
     public function resend()
     {
-        app(OtpService::class)->resend();
+        /** @var User $user */
+        $user = Auth::user();
 
+        $otp = Session::get(LaravelOtp::generateKey($user));
+
+        $class = config('otp.notification');
+
+        $user->notify(new $class($otp));
         return back()->with('status', 'The OTP has been resend.');
     }
 }

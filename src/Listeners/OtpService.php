@@ -17,6 +17,10 @@ class OtpService
         /** @var User $user */
         $user = $event->user;
 
+        if (method_exists($user, 'shouldPassOtp') && $user->shouldPassOtp() === false) {
+            return;
+        }
+
         $key = LaravelOtp::generateKey($user);
 
         if (Session::get($key)) {
@@ -33,17 +37,5 @@ class OtpService
     public function clear(Logout $event)
     {
         Cache::forget(LaravelOtp::generateVerifiedKey($event->user));
-    }
-
-    public function resend()
-    {
-        /** @var User $user */
-        $user = Auth::user();
-
-        $otp = Session::get(LaravelOtp::generateKey($user));
-
-        $class = config('otp.notification');
-
-        $user->notify(new $class($otp));
     }
 }
