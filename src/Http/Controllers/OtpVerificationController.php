@@ -35,7 +35,7 @@ class OtpVerificationController extends Controller
     public function resend()
     {
         /** @var User $user */
-        $user = Auth::user();
+        $user = auth()->user();
 
         $otp = Session::get(LaravelOtp::generateKey($user));
 
