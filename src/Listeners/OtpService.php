@@ -16,7 +16,7 @@ class OtpService
         /** @var User $user */
         $user = $event->user;
 
-        if (method_exists($user, 'shouldPassOtp') && $user->shouldPassOtp() === false) {
+        if (method_exists($user, 'shouldGoThroughOtp') && $user->shouldGoThroughOtp() === false) {
             return;
         }
 

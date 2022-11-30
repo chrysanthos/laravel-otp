@@ -3,7 +3,7 @@
 namespace Chrysanthos\LaravelOtp;
 
 use Chrysanthos\LaravelOtp\Listeners\OtpService;
-use Illuminate\Auth\Events\Authenticated;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Support\Facades\Event;
 use Spatie\LaravelPackageTools\Package;
@@ -27,7 +27,7 @@ class LaravelOtpServiceProvider extends PackageServiceProvider
                 ->hasViews()
                 ->hasRoutes('web');
 
-            Event::listen(Authenticated::class, [OtpService::class, 'generate']);
+            Event::listen(Login::class, [OtpService::class, 'generate']);
             Event::listen(Logout::class, [OtpService::class, 'clear']);
         }
     }

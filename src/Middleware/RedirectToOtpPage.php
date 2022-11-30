@@ -28,7 +28,7 @@ class RedirectToOtpPage
             return $next($request);
         }
 
-        if (method_exists($user, 'shouldPassOtp') && $user->shouldPassOtp() === false) {
+        if (method_exists($user, 'shouldGoThroughOtp') && $user->shouldGoThroughOtp() === false) {
             return $next($request);
         }
 
