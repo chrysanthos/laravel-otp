@@ -5,7 +5,6 @@ namespace Chrysanthos\LaravelOtp\Http\Controllers;
 use Chrysanthos\LaravelOtp\Support\OtpService;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 
 class OtpVerificationController extends Controller
@@ -25,7 +24,7 @@ class OtpVerificationController extends Controller
         $key = $service->generateKey($user);
 
         if ($service->check($user, request()->integer('otp-code'))) {
-            Cache::forever($service->generateVerifiedKey($user), true);
+            Session::put($service->generateVerifiedKey($user), true);
             Session::forget($key);
 
             return redirect()->intended('/dashboard');

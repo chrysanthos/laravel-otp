@@ -47,4 +47,9 @@ class OtpService
     {
         return get_class($user).'-'.$user->id.'2fa-verified';
     }
+
+    public function generateOtpSentKey(Authenticatable $user): string
+    {
+        return get_class($user).'-'.$user->id.'otp-sent';
+    }
 }

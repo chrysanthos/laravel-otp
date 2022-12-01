@@ -6,7 +6,7 @@ use Chrysanthos\LaravelOtp\Support\OtpService;
 use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
 class RedirectToOtpPage
@@ -32,7 +32,13 @@ class RedirectToOtpPage
             return $next($request);
         }
 
-        if (Cache::missing(app(OtpService::class)->generateVerifiedKey($user))) {
+        $otpService = app(OtpService::class);
+
+        if (!Session::has($otpService->generateVerifiedKey($user))) {
+            if (!Session::has($otpService->generateOtpSentKey($user))) {
+                $otpService->generateOtpAndSend($user);
+            }
+
             if ($request->header('X-Inertia')) {
                 return inertia()->location(route('2fa.index'));
             }

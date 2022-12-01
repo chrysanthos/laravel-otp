@@ -6,7 +6,7 @@ use Chrysanthos\LaravelOtp\Support\OtpService;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Foundation\Auth\User;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Session;
 
 class OtpListener
 {
@@ -24,7 +24,7 @@ class OtpListener
 
     public function clear(Logout $event)
     {
-        Cache::forget(
+        Session::forget(
             app(OtpService::class)->generateVerifiedKey($event->user)
         );
     }
