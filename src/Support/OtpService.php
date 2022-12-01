@@ -58,7 +58,7 @@ class OtpService
     {
         $paths = Arr::wrap(config('otp.paths'));
 
-        if (!is_array($paths) || ($paths[0] ?? null) === '*') {
+        if (! is_array($paths) || ($paths[0] ?? null) === '*') {
             return true;
         }
 

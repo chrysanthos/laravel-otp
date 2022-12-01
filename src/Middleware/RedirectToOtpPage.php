@@ -34,7 +34,7 @@ class RedirectToOtpPage
 
         $otpService = app(OtpService::class);
 
-        if (!$otpService->shouldCoverRoutePath($request->path())) {
+        if (! $otpService->shouldCoverRoutePath($request->path())) {
             return $next($request);
         }
 
