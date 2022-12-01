@@ -33,6 +33,11 @@ class OtpService
         Session::put($key, $otp);
     }
 
+    public function check(User $user, $otp): bool
+    {
+        return (int)$otp === (int)Session::get($this->generateKey($user));
+    }
+
     public function generateKey(Authenticatable $user): string
     {
         return get_class($user).'_'.$user->id;

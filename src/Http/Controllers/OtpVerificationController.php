@@ -24,7 +24,7 @@ class OtpVerificationController extends Controller
 
         $key = $service->generateKey($user);
 
-        if (request()->integer('otp-code') === (int) Session::get($key)) {
+        if ($service->check($user, request()->integer('otp-code'))) {
             Cache::forever($service->generateVerifiedKey($user), true);
             Session::forget($key);
 
