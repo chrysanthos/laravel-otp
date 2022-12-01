@@ -4,6 +4,7 @@ namespace Chrysanthos\LaravelOtp\Support;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Session;
 
 class OtpService
@@ -51,5 +52,16 @@ class OtpService
     public function generateOtpSentKey(Authenticatable $user): string
     {
         return get_class($user).'-'.$user->id.'otp-sent';
+    }
+
+    public function shouldCoverRoutePath(string $path): bool
+    {
+        $paths = Arr::wrap(config('otp.paths'));
+
+        if (!is_array($paths) || ($paths[0] ?? null) === '*') {
+            return true;
+        }
+
+        return in_array($path, $paths, true);
     }
 }
