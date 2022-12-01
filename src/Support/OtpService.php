@@ -35,7 +35,7 @@ class OtpService
 
     public function check(User $user, $otp): bool
     {
-        return (int)$otp === (int)Session::get($this->generateKey($user));
+        return (int) $otp === (int) Session::get($this->generateKey($user));
     }
 
     public function generateKey(Authenticatable $user): string
