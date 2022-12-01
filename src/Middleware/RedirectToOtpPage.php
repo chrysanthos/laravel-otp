@@ -34,8 +34,8 @@ class RedirectToOtpPage
 
         $otpService = app(OtpService::class);
 
-        if (!Session::has($otpService->generateVerifiedKey($user))) {
-            if (!Session::has($otpService->generateOtpSentKey($user))) {
+        if (! Session::has($otpService->generateVerifiedKey($user))) {
+            if (! Session::has($otpService->generateOtpSentKey($user))) {
                 $otpService->generateOtpAndSend($user);
             }
 
