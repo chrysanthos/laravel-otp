@@ -8,6 +8,11 @@ return [
     'enabled' => false,
 
     /**
+     * The logo image to be shown above otp input.
+     */
+    'logo' => null,
+
+    /**
      * The notification to be sent to the logged-in user.
      * Override this with your own implementation so that
      * you can customize the channels, message format etc.
