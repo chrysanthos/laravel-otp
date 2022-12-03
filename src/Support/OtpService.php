@@ -22,6 +22,8 @@ class OtpService
         $class = config('otp.notification');
 
         $user->notify(new $class($otp));
+
+        Session::put($this->generateOtpSentKey($user), true);
     }
 
     public function generateRandomOtp(): int
