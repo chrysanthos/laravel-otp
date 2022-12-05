@@ -13,5 +13,9 @@ class OtpListener
         Session::forget(
             app(OtpService::class)->generateVerifiedKey($event->user)
         );
+
+        Session::forget(
+            app(OtpService::class)->generateOtpSentKey($event->user)
+        );
     }
 }
