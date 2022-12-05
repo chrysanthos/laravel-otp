@@ -39,11 +39,11 @@ class RedirectToOtpPage
         }
 
         if (! Session::has($otpService->generateVerifiedKey($user))) {
-            if (! Session::has($otpService->generateOtpSentKey($user))) {
+            if (! $otpService->optSendRecently($user)) {
                 $otpService->generateOtpAndSend($user);
             }
 
-            if ($request->header('X-Inertia')) {
+            if ($request->header('X-Inertia') && function_exists('inertia')) {
                 return inertia()->location(route('2fa.index'));
             }
 

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Session;
 
 class OtpService
 {
+    protected $resendAfterMinutes = 2;
+
     /**
      * @param  User  $user
      * @return void
@@ -23,7 +25,7 @@ class OtpService
 
         $user->notify(new $class($otp));
 
-        Session::put($this->generateOtpSentKey($user), true);
+        Session::put($this->generateOtpSentKey($user), time());
     }
 
     public function generateRandomOtp(): int
@@ -54,6 +56,17 @@ class OtpService
     public function generateOtpSentKey(Authenticatable $user): string
     {
         return get_class($user).'-'.$user->id.'otp-sent';
+    }
+
+    public function optSendRecently(Authenticatable $user): bool
+    {
+        if (!Session::has($key = $this->generateOtpSentKey($user))) {
+            return false;
+        }
+
+        $otpSentAt = Session::get($key);
+
+        return $otpSentAt > time() - (60 * $this->resendAfterMinutes);
     }
 
     public function shouldCoverRoutePath(string $path): bool
