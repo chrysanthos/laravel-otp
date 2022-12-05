@@ -44,11 +44,11 @@ class OtpVerificationController extends Controller
 
         if (empty($otp)) {
             $service->generateOtpAndSend($user);
+        } else {
+            $class = config('otp.notification');
+
+            $user->notify(new $class($otp));
         }
-
-        $class = config('otp.notification');
-
-        $user->notify(new $class($otp));
 
         return back()->with('status', 'The OTP has been resend.');
     }
