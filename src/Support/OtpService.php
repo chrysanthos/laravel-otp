@@ -60,7 +60,7 @@ class OtpService
 
     public function optSendRecently(Authenticatable $user): bool
     {
-        if (!Session::has($key = $this->generateOtpSentKey($user))) {
+        if (! Session::has($key = $this->generateOtpSentKey($user))) {
             return false;
         }
 
