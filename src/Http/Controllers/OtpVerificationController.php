@@ -40,15 +40,7 @@ class OtpVerificationController extends Controller
 
         $service = app(OtpService::class);
 
-        $otp = Session::get($service->generateKey($user));
-
-        if (empty($otp)) {
-            $service->generateOtpAndSend($user);
-        } else {
-            $class = config('otp.notification');
-
-            $user->notify(new $class($otp));
-        }
+        $service->generateOtpAndSend($user);
 
         return back()->with('status', 'The OTP has been resend.');
     }
