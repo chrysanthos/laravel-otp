@@ -1,8 +1,8 @@
 # Login Otp for Laravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/chrysanthos/laravel-otp.svg?style=flat-square)](https://packagist.org/packages/chrysanthos/laravel-otp)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/chrysanthos/laravel-otp/run-tests?label=tests)](https://github.com/chrysanthos/laravel-otp/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/chrysanthos/laravel-otp/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/chrysanthos/laravel-otp/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/chrysanthos/laravel-otp/run-tests.yml?branch=main&label=tests)](https://github.com/chrysanthos/laravel-otp/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/chrysanthos/laravel-otp/fix-php-code-style-issues.yml?branch=main&label=code%20style)](https://github.com/chrysanthos/laravel-otp/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/chrysanthos/laravel-otp.svg?style=flat-square)](https://packagist.org/packages/chrysanthos/laravel-otp)
 
 This package lets you set up OTP verification on whenever a user is logged in.
