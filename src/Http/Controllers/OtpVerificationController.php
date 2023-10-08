@@ -42,6 +42,6 @@ class OtpVerificationController extends Controller
 
         $service->generateOtpAndSend($user);
 
-        return back()->with('status', 'The OTP has been resend.');
+        return back()->with('status', 'The OTP has been resent.');
     }
 }
