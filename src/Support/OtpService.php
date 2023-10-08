@@ -12,7 +12,6 @@ class OtpService
     protected $resendAfterMinutes = 2;
 
     /**
-     * @param  User  $user
      * @return void
      */
     public function generateOtpAndSend(User $user)
