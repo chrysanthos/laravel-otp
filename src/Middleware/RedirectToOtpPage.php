@@ -12,8 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 class RedirectToOtpPage
 {
     /**
-     * @param  Request  $request
-     * @param  Closure  $next
      * @return RedirectResponse|mixed|Response
      */
     public function handle(Request $request, Closure $next)
