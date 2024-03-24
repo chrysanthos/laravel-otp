@@ -4,6 +4,7 @@ namespace Chrysanthos\LaravelOtp\Http\Controllers;
 
 use Chrysanthos\LaravelOtp\Support\OtpService;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 
@@ -14,8 +15,24 @@ class OtpVerificationController extends Controller
         return view('otp::otp');
     }
 
-    public function send()
+    public function send(Request $request)
     {
+        $request->validate([
+            'otp-code-1' => ['required', 'integer', 'min:0', 'max:9'],
+            'otp-code-2' => ['required', 'integer', 'min:0', 'max:9'],
+            'otp-code-3' => ['required', 'integer', 'min:0', 'max:9'],
+            'otp-code-4' => ['required', 'integer', 'min:0', 'max:9'],
+            'otp-code-5' => ['required', 'integer', 'min:0', 'max:9'],
+            'otp-code-6' => ['required', 'integer', 'min:0', 'max:9'],
+        ]);
+
+        $otp = $request->get('otp-code-1')
+            . $request->get('otp-code-2')
+            . $request->get('otp-code-3')
+            . $request->get('otp-code-4')
+            . $request->get('otp-code-5')
+            . $request->get('otp-code-6');
+
         /** @var User $user */
         $user = auth()->user();
 
@@ -23,7 +40,7 @@ class OtpVerificationController extends Controller
 
         $key = $service->generateKey($user);
 
-        if ($service->check($user, request()->integer('otp-code'))) {
+        if ($service->check($user, $otp)) {
             Session::put($service->generateVerifiedKey($user), true);
             Session::forget($key);
 
