@@ -2,6 +2,7 @@
 
 namespace Chrysanthos\LaravelOtp\Http\Controllers;
 
+use Chrysanthos\LaravelOtp\Events\OtpVerificationFailedEvent;
 use Chrysanthos\LaravelOtp\Support\OtpService;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
@@ -46,6 +47,8 @@ class OtpVerificationController extends Controller
 
             return redirect()->intended('/dashboard');
         }
+
+        event(new OtpVerificationFailedEvent($user));
 
         return back()->withErrors('The OTP code is incorrect.');
     }
