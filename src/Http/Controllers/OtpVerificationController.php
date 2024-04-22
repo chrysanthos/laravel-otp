@@ -29,11 +29,11 @@ class OtpVerificationController extends Controller
         ]);
 
         $otp = $request->get('otp-code-1')
-            . $request->get('otp-code-2')
-            . $request->get('otp-code-3')
-            . $request->get('otp-code-4')
-            . $request->get('otp-code-5')
-            . $request->get('otp-code-6');
+            .$request->get('otp-code-2')
+            .$request->get('otp-code-3')
+            .$request->get('otp-code-4')
+            .$request->get('otp-code-5')
+            .$request->get('otp-code-6');
 
         /** @var User $user */
         $user = auth()->user();
