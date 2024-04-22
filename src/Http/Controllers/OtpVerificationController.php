@@ -2,6 +2,7 @@
 
 namespace Chrysanthos\LaravelOtp\Http\Controllers;
 
+use Chrysanthos\LaravelOtp\Events\OtpVerificationCodeResentEvent;
 use Chrysanthos\LaravelOtp\Events\OtpVerificationFailedEvent;
 use Chrysanthos\LaravelOtp\Support\OtpService;
 use Illuminate\Foundation\Auth\User;
@@ -28,11 +29,11 @@ class OtpVerificationController extends Controller
         ]);
 
         $otp = $request->get('otp-code-1')
-            .$request->get('otp-code-2')
-            .$request->get('otp-code-3')
-            .$request->get('otp-code-4')
-            .$request->get('otp-code-5')
-            .$request->get('otp-code-6');
+            . $request->get('otp-code-2')
+            . $request->get('otp-code-3')
+            . $request->get('otp-code-4')
+            . $request->get('otp-code-5')
+            . $request->get('otp-code-6');
 
         /** @var User $user */
         $user = auth()->user();
@@ -61,6 +62,8 @@ class OtpVerificationController extends Controller
         $service = app(OtpService::class);
 
         $service->generateOtpAndSend($user);
+
+        event(new OtpVerificationCodeResentEvent($user));
 
         return back()->with('status', 'The OTP has been resent.');
     }
