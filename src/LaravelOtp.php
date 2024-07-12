@@ -2,6 +2,4 @@
 
 namespace Chrysanthos\LaravelOtp;
 
-class LaravelOtp
-{
-}
+class LaravelOtp {}

@@ -14,9 +14,7 @@ class SendOtpToUserNotification extends Notification
      *
      * @return void
      */
-    public function __construct(protected int $otp)
-    {
-    }
+    public function __construct(protected int $otp) {}
 
     /**
      * Get the notification's delivery channels.
