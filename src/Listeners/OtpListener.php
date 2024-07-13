@@ -10,12 +10,14 @@ class OtpListener
 {
     public function clear(Logout $event)
     {
-        Session::forget(
-            app(OtpService::class)->generateVerifiedKey($event->user)
-        );
+        if ($event->user) {
+            Session::forget(
+                app(OtpService::class)->generateVerifiedKey($event->user)
+            );
 
-        Session::forget(
-            app(OtpService::class)->generateOtpSentKey($event->user)
-        );
+            Session::forget(
+                app(OtpService::class)->generateOtpSentKey($event->user)
+            );
+        }
     }
 }
