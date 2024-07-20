@@ -38,6 +38,12 @@ class OtpVerificationController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
+        if ($user === null) {
+            auth()->logout();
+
+            return back();
+        }
+
         $service = app(OtpService::class);
 
         $key = $service->generateKey($user);
